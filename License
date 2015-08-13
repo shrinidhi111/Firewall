@@ -1,4 +1,4 @@
-Version 1.0.2, August 2015
+Version 1.1, August 2015
 
 Everyone is permitted to copy and distribute verbatim copies
 of this license document, but changing it is not allowed.
@@ -21,10 +21,10 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 5. The above terms are valid only when:
   a. You commit full responsibility upon using the Firewall rules. I do NOT guarantee they'll work with every system and configuration;
   b. You understand what you are doing and understand when the rules need to be modified to fit your system/firewall configuration/needs;
-  c. If you got these rules by a friend or someone who isn't Amarildo Santini Júnior, and you don't understand how these rules and/or a firewall work, you'll ask for assistance before using them (rules);
-  d. You, upong redistributing the rules, ask if the person/entity knows how they (rules) work and how to configure them (rules);
-  e. You commit full responsibility upon distributing them (rules), be it in their original or modified form, to people who don't understand how they (rules) work; 
-  f. You make it possible for the viewers to easily see this License;
+  c. If you got these rules and you don't understand how these rules and/or a firewall work, you'll ask for assistance before using them (rules);
+  d. You, upon redistributing the rules, ask if the person/entity knows how they (rules) work and how to configure them (rules);
+  e. You make clear that the person using these rules must take full responsibility over their systems before applying the rules; 
+  f. You make it possible for the viewers of your redistributed copy to easily see this License;
   g. You make clear, when you redistribute the rules, if you made changes to them or not;
   h. You do NOT redistribute these rules as executable binary form, only in compressed-and-non-executable formats that are easily decompressible by any Linux Distribution and that make the rules readable by any text editor after de-compressing;
   
