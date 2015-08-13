@@ -1,0 +1,193 @@
+# Drop everything
+iptables -P OUTPUT  DROP
+iptables -P INPUT   DROP
+iptables -P FORWARD DROP
+
+# Drop everything IPv6
+ip6tables -P OUTPUT  DROP
+ip6tables -P INPUT   DROP
+ip6tables -P FORWARD DROP
+
+# drop TCP sessions opened prior firewall restart
+iptables -A INPUT -p tcp -m tcp ! --tcp-flags SYN,RST,ACK SYN -m state --state NEW -j DROP
+iptables -A OUTPUT  -p tcp -m tcp ! --tcp-flags SYN,RST,ACK SYN -m state --state NEW -j DROP
+
+# drop packets that do not match any valid state and log them
+iptables -N drop_invalid
+iptables -A OUTPUT   -m state --state INVALID  -j drop_invalid 
+iptables -A INPUT    -m state --state INVALID  -j drop_invalid 
+iptables -A INPUT -p tcp -m tcp --sport 1:65535 --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j drop_invalid 
+iptables -A drop_invalid -j LOG --log-level debug --log-prefix "INVALID state -- DENY "
+iptables -A drop_invalid -j DROP
+
+# anti-spoof
+iptables -N In_RULE_0
+iptables -A INPUT -i enp0s7   -s amarildo   -j In_RULE_0 
+iptables -A In_RULE_0  -j LOG  --log-level info --log-prefix "RULE 0 -- DENY "
+iptables -A In_RULE_0  -j DROP
+
+# ICMP Block - Log
+iptables -N In_RULE_1
+iptables -A INPUT -p icmp  -m icmp  --icmp-type any  -j In_RULE_1
+iptables -A In_RULE_1  -j LOG  --log-level info --log-prefix "RULE 1 -- DENY "
+iptables -A In_RULE_1  -j DROP
+
+# Whois - Block - Log
+iptables -N In_RULE_2
+iptables -A INPUT -p tcp -m tcp  --dport 43  -j In_RULE_2
+iptables -A In_RULE_2  -j LOG  --log-level info --log-prefix "RULE 2 -- DENY "
+iptables -A In_RULE_2  -j DROP
+
+# xmas-scan - Block - Log
+iptables -N In_RULE_3
+iptables -A INPUT -p tcp -m tcp   --tcp-flags ALL URG,PSH,FIN  -j In_RULE_3
+iptables -A In_RULE_3  -j LOG  --log-level info --log-prefix "RULE 3 -- DENY "
+iptables -A In_RULE_3  -j DROP
+
+# xmas-scan-full - Block - Log
+iptables -N In_RULE_4
+iptables -A INPUT -p tcp -m tcp   --tcp-flags ALL URG,ACK,PSH,RST,SYN,FIN  -j In_RULE_4
+iptables -A In_RULE_4  -j LOG  --log-level info --log-prefix "RULE 4 -- DENY "
+iptables -A In_RULE_4  -j DROP
+
+# IP fragments - BLock - Log
+iptables -N In_RULE_5
+iptables -A INPUT -p all  -f   -j In_RULE_5
+iptables -A In_RULE_5  -j LOG  --log-level info --log-prefix "RULE 5 -- DENY "
+iptables -A In_RULE_5  -j DROP
+
+# who - Block - Log
+iptables -N In_RULE_6
+iptables -A INPUT -p udp -m udp  --dport 513  -j In_RULE_6
+iptables -A In_RULE_6  -j LOG  --log-level info --log-prefix "RULE 6 -- DENY "
+iptables -A In_RULE_6  -j DROP
+
+# traceroute - Block - Log
+iptables -N In_RULE_7
+iptables -A INPUT -p udp -m udp  --dport 33434:33524  -j In_RULE_7
+iptables -A In_RULE_7  -j LOG  --log-level info --log-prefix "RULE 7 -- DENY "
+iptables -A In_RULE_7  -j DROP
+
+# ESTABLISHED,RELATED
+iptables -A INPUT  -m state --state ESTABLISHED,RELATED  -j ACCEPT
+
+# allow all on loopback
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+
+#(INVALID OUT)
+iptables -A OUTPUT -p tcp -m tcp ! --tcp-flags SYN,RST,ACK SYN -m state --state NEW -j DROP
+
+# ESTABLISHED,RELATED (OUT)
+iptables -A OUTPUT  -m state --state ESTABLISHED,RELATED  -j ACCEPT
+
+# DNS
+iptables -A OUTPUT -p udp -m udp  --dport 53  -m state --state NEW  -j ACCEPT
+
+# FTP
+iptables -A OUTPUT -p tcp -m tcp  --dport 21  -m state --state NEW  -j ACCEPT
+
+# http
+iptables -A OUTPUT -p tcp -m tcp  --dport 80  -m state --state NEW  -j ACCEPT
+
+# https
+iptables -A OUTPUT -p tcp -m tcp  --dport 443  -m state --state NEW  -j ACCEPT
+
+# IMAP
+iptables -A OUTPUT -p tcp -m tcp  --dport 143  -m state --state NEW  -j ACCEPT
+
+# POP3
+iptables -A OUTPUT -p tcp -m tcp  --dport 110  -m state --state NEW  -j ACCEPT
+
+# Printer
+iptables -A OUTPUT -p tcp -m tcp  --dport 515  -m state --state NEW  -j ACCEPT
+
+# SMTP
+iptables -A OUTPUT -p tcp -m tcp  --dport 25  -m state --state NEW  -j ACCEPT
+
+# SMTPS
+iptables -A OUTPUT -p tcp -m tcp  --dport 465  -m state --state NEW  -j ACCEPT
+
+# OpenVPN
+iptables -A OUTPUT -p udp -m udp  --dport 1194  -m state --state NEW  -j ACCEPT
+
+# Kpasswd
+iptables -A OUTPUT -p udp -m udp  --dport 464  -m state --state NEW  -j ACCEPT
+
+# KMail
+iptables -A OUTPUT -p tcp -m tcp  --dport 993  -m state --state NEW  -j ACCEPT
+
+# Steam
+iptables -A OUTPUT -p tcp -m tcp --dport 27015 -j ACCEPT
+iptables -A OUTPUT -p udp -m multiport --dports 27000:27015 -j ACCEPT
+iptables -A OUTPUT -p udp -m multiport --dports 27015:27030 -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --dports 27014:27050 -j ACCEPT
+iptables -A OUTPUT -p udp -m udp --dport 4380 -j ACCEPT
+iptables -A OUTPUT -p udp -m udp --dport 3478 -j ACCEPT
+iptables -A OUTPUT -p udp -m udp --dport 4379 -j ACCEPT
+
+# TeamSpeak3
+
+iptables -A OUTPUT -p udp -m udp --dport 9987 -j ACCEPT
+iptables -A OUTPUT -p tcp -m tcp --dport 30033 -j ACCEPT
+iptables -A OUTPUT -p tcp -m tcp --dport 10011 -j ACCEPT 
+
+# DHCP Client
+iptables -A OUTPUT -p udp --sport 67 --dport 68 -j ACCEPT
+
+#
+# ufw-not-local
+#
+iptables -N ufw_before_input
+iptables -N ufw_not_local
+iptables -N ufw_logging_deny
+iptables -A ufw_before_input -j ufw_not_local
+
+# if LOCAL, RETURN
+iptables -A ufw_not_local -m addrtype --dst-type LOCAL -j RETURN
+
+# if MULTICAST, RETURN
+iptables -A ufw_not_local -m addrtype --dst-type MULTICAST -j RETURN
+
+# if BROADCAST, RETURN
+iptables -A ufw_not_local -m addrtype --dst-type BROADCAST -j RETURN
+
+# all other non-local packets are dropped
+iptables -A ufw_not_local -m limit --limit 3/min --limit-burst 10 -j ufw_logging_deny
+iptables -A ufw_not_local -j DROP
+
+# allow MULTICAST mDNS for service discovery (be sure the MULTICAST line above
+# is uncommented)
+iptables -A ufw_before_input -p udp -d 224.0.0.251 --dport 5353 -j ACCEPT
+
+# allow MULTICAST UPnP for service discovery (be sure the MULTICAST line above
+# is uncommented)
+iptables -A ufw_before_input -p udp -d 239.255.255.250 --dport 1900 -j ACCEPT
+
+# ALL UDP
+iptables -N RULE_21
+iptables -A OUTPUT -p udp -m udp  -j RULE_21
+iptables -A INPUT -p udp -m udp  -j RULE_21
+iptables -A RULE_21  -j LOG  --log-level info --log-prefix "RULE 21 -- DENY "
+iptables -A RULE_21  -j DROP
+
+# ALL TCP
+iptables -N RULE_22
+iptables -A OUTPUT -p tcp -m tcp  -j RULE_22
+iptables -A INPUT -p tcp -m tcp  -j RULE_22
+iptables -A RULE_22  -j LOG  --log-level info --log-prefix "RULE 22 -- DENY "
+iptables -A RULE_22  -j DROP
+
+# All other attempts are denied and logged
+iptables -N RULE_23
+iptables -A OUTPUT  -d amarildo   -j RULE_23 
+iptables -A INPUT  -j RULE_23
+iptables -A RULE_23  -j LOG  --log-level info --log-prefix "RULE 23 -- DENY "
+iptables -A RULE_23  -j DROP
+
+# Logged again
+iptables -N RULE_24
+iptables -A OUTPUT  -j RULE_24
+iptables -A INPUT  -j RULE_24
+iptables -A RULE_24  -j LOG  --log-level info --log-prefix "RULE 24 -- DENY "
+iptables -A RULE_24  -j DROP
