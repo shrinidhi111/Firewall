@@ -1,0 +1,37 @@
+#
+# rules.before
+#
+# Rules that should be run before the ufw command line added rules. Custom
+# rules should be added to one of these chains:
+#   ufw6-before-input
+#   ufw6-before-output
+#   ufw6-before-forward
+#
+
+# Don't delete these required lines, otherwise there will be errors
+*filter
+:ufw6-before-input - [0:0]
+:ufw6-before-output - [0:0]
+:ufw6-before-forward - [0:0]
+# End required lines
+
+-A ufw6-before-input -p tcp -m tcp ! --tcp-flags SYN,RST,ACK SYN -m state --state NEW -j DROP
+-A ufw6-before-input -p udp -m udp -j DROP
+
+-A ufw6-before-output -p tcp -m tcp ! --tcp-flags SYN,RST,ACK SYN -m state --state NEW -j DROP
+-A ufw6-before-output -p udp -m udp -j DROP
+
+-A ufw6-before-forward -p tcp -m tcp ! --tcp-flags SYN,RST,ACK SYN -m state --state NEW -j DROP
+-A ufw6-before-forward -p udp -m udp -j DROP
+
+# drop packets with RH0 headers
+-A ufw6-before-input -m rt --rt-type 0 -j DROP
+-A ufw6-before-forward -m rt --rt-type 0 -j DROP
+-A ufw6-before-output -m rt --rt-type 0 -j DROP
+
+# drop INVALID packets (logs these in loglevel medium and higher)
+-A ufw6-before-input -m state --state INVALID -j ufw6-logging-deny
+-A ufw6-before-input -m state --state INVALID -j DROP
+
+# don't delete the 'COMMIT' line or these rules won't be processed
+COMMIT
