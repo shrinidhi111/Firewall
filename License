@@ -1,0 +1,37 @@
+Version 1.0, August 2015
+
+Everyone is permitted to copy and distribute verbatim copies
+of this license document, but changing it is not allowed.
+
+Preamble
+
+Amarildo's Firewall License.
+
+To protect your rights, this license was created in order to make certain restrictions that would make those user rights impossible.
+The precise terms/rights follow.
+
+TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+
+1. Anyone is permitted to use these firewall rules as they see fit, for any purpose.
+2. Anyone is permitted to see how these firewall rules work.
+3. Anyone is permitted to redistribute these firewall rules.
+4. Anyone is permitted to redistribute modified copies of these firewall rules.
+
+
+5. The above terms are valid only when:
+  a. You commit full responsibility upon using the Firewall rules. I do NOT guarantee they'll work with every system and configuration;
+  b. You understand what you are doing and understand when the rules need to be modified to fit your system/firewall configuration/needs;
+  c. If you got these rules by a friend or someone who isn't Amarildo Santini Júnior, and you don't understand how these rules or a firewall work, you'll ask for assistance before using them (rules);
+  d. You, upong redistributing the rules, ask if the person/entity knows how they (rules) work and how to configure them (rules);
+  e. You commit full responsibility upon distributing them (rules), be it in their original or modified form, to people who don't understand how they (rules) work; 
+  f. You make it possible for the viewers to easily see this License;
+  g. You make clear, when you redistribute the rules, if you made changes to them or not;
+  h. You do NOT redistribute these rules as executable binary form, only in compressed-and-non-executable formats that are easily decompressible by any Linux Distribution and that make the rules readable by any text editor after de-compressing;
+  
+  
+NO WARRANTY
+
+6. BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+
+7. IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIBUTE THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+END OF TERMS AND CONDITIONS
