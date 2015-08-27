@@ -41,7 +41,7 @@
 # traceroute
 -A ufw6-before-input -p udp -m udp  --dport 33434:33524  -j DROP
 
-# ok icmp codes for INPUT (rfc4890, 4.4.1 and 4.4.2)
+# NOT ok icmp codes for INPUT (rfc4890, 4.4.1 and 4.4.2)
 -A ufw6-before-input -p icmpv6 --icmpv6-type destination-unreachable -j DROP
 -A ufw6-before-input -p icmpv6 --icmpv6-type packet-too-big -j DROP
 # codes 0 and 1
@@ -113,7 +113,7 @@
 # MR termination
 -A ufw6-before-output -p icmpv6 --icmpv6-type 153 -s fe80::/10 -m hl --hl-eq 1 -j ACCEPT
 
-# ok icmp codes for FORWARD (rfc4890, 4.3.1)
+# NOT ok icmp codes for FORWARD (rfc4890, 4.3.1)
 -A ufw6-before-forward -p icmpv6 --icmpv6-type destination-unreachable -j DROP
 -A ufw6-before-forward -p icmpv6 --icmpv6-type packet-too-big -j DROP
 # codes 0 and 1
