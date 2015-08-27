@@ -16,13 +16,9 @@
 :ufw-not-local - [0:0]
 # End required lines
 
-# allow all on loopback
--A ufw-before-input -i lo -j ACCEPT
--A ufw-before-output -o lo -j ACCEPT
-
 # drop INVALID packets (logs these in loglevel medium and higher)
--A ufw-before-input -m state --state INVALID -j ufw-logging-deny
--A ufw-before-input -m state --state INVALID -j DROP
+-A ufw-before-input -m conntrack --ctstate INVALID -j ufw-logging-deny
+-A ufw-before-input -m conntrack --ctstate INVALID -j DROP
 
 # Drop TCP sessions opened prior to Firewall start
 -A ufw-before-input -p tcp -m tcp ! --tcp-flags SYN,RST,ACK SYN -m state --state NEW -j DROP
@@ -33,24 +29,28 @@
 -A ufw-before-input -p tcp -m tcp --sport 1:65535 --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j DROP
 
 # Anti-spoof
--A ufw-before-input -i enp0s7   -s amarildo   -j DROP
+-A ufw-before-input -i enp0s7 -s amarildo -j DROP
 
 # Anti ICMP
 -A ufw-before-input -p icmp  -m icmp  --icmp-type any  -j DROP
 -A ufw-before-input -p tcp -m tcp  --dport 43  -j DROP
 
 # Xmas scan
--A ufw-before-input -p tcp -m tcp   --tcp-flags ALL URG,PSH,FIN  -j DROP
--A ufw-before-input -p tcp -m tcp   --tcp-flags ALL URG,ACK,PSH,RST,SYN,FIN  -j DROP
+-A ufw-before-input -p tcp -m tcp --tcp-flags ALL URG,PSH,FIN  -j DROP
+-A ufw-before-input -p tcp -m tcp --tcp-flags ALL URG,ACK,PSH,RST,SYN,FIN  -j DROP
 
 # IP fragments
--A ufw-before-input -p all  -f   -j DROP
+-A ufw-before-input -p all -f -j DROP
 
 # who
 -A ufw-before-input -p udp -m udp  --dport 513  -j DROP
 
 # traceroute
 -A ufw-before-input -p udp -m udp  --dport 33434:33524  -j DROP
+
+# allow all on loopback
+-A ufw-before-input -i lo -j ACCEPT
+-A ufw-before-output -o lo -j ACCEPT
 
 # quickly process packets for which we already have a connection
 -A ufw-before-input -m state --state RELATED,ESTABLISHED -j ACCEPT
