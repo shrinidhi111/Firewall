@@ -81,41 +81,42 @@ iptables -A OUTPUT -p tcp -m tcp ! --tcp-flags SYN,RST,ACK SYN -m state --state 
 # ESTABLISHED,RELATED (OUT)
 iptables -A OUTPUT  -m state --state ESTABLISHED,RELATED  -j ACCEPT
 
-# DNS
-iptables -A OUTPUT -p udp -m udp  --dport 53  -m state --state NEW  -j ACCEPT
-
 # FTP
 iptables -A OUTPUT -p tcp -m tcp  --dport 21  -m state --state NEW  -j ACCEPT
-
-# http
-iptables -A OUTPUT -p tcp -m tcp  --dport 80  -m state --state NEW  -j ACCEPT
-
-# https
-iptables -A OUTPUT -p tcp -m tcp  --dport 443  -m state --state NEW  -j ACCEPT
-
-# IMAP
-iptables -A OUTPUT -p tcp -m tcp  --dport 143  -m state --state NEW  -j ACCEPT
-
-# POP3
-iptables -A OUTPUT -p tcp -m tcp  --dport 110  -m state --state NEW  -j ACCEPT
-
-# Printer
-iptables -A OUTPUT -p tcp -m tcp  --dport 515  -m state --state NEW  -j ACCEPT
 
 # SMTP
 iptables -A OUTPUT -p tcp -m tcp  --dport 25  -m state --state NEW  -j ACCEPT
 
+# DNS
+iptables -A OUTPUT -p udp -m udp  --dport 53  -m state --state NEW  -j ACCEPT
+
+# http
+iptables -A OUTPUT -p tcp -m tcp  --dport 80  -m state --state NEW  -j ACCEPT
+
+# POP3
+iptables -A OUTPUT -p tcp -m tcp  --dport 110  -m state --state NEW  -j ACCEPT
+
+# IMAP
+iptables -A OUTPUT -p tcp -m tcp  --dport 143  -m state --state NEW  -j ACCEPT
+
+# https
+iptables -A OUTPUT -p tcp -m tcp  --dport 443  -m state --state NEW  -j ACCEPT
+
 # SMTPS
 iptables -A OUTPUT -p tcp -m tcp  --dport 465  -m state --state NEW  -j ACCEPT
+
+# KMail
+iptables -A OUTPUT -p tcp -m tcp  --dport 993  -m state --state NEW  -j ACCEPT
 
 # OpenVPN
 iptables -A OUTPUT -p udp -m udp  --dport 1194  -m state --state NEW  -j ACCEPT
 
-# Kpasswd
-iptables -A OUTPUT -p udp -m udp  --dport 464  -m state --state NEW  -j ACCEPT
-
-# KMail
-iptables -A OUTPUT -p tcp -m tcp  --dport 993  -m state --state NEW  -j ACCEPT
+# KTorrent
+iptables -A OUTPUT -p tcp -m tcp  --dport 6881  -m state --state NEW  -j ACCEPT
+iptables -A OUTPUT -p udp -m udp  --dport 6881  -m state --state NEW  -j ACCEPT
+iptables -A OUTPUT -p udp -m udp  --dport 8881  -m state --state NEW  -j ACCEPT
+iptables -A OUTPUT -p tcp -m tcp  --dport 8881  -m state --state NEW  -j ACCEPT
+iptables -A OUTPUT -p udp -m udp  --dport 7881  -m state --state NEW  -j ACCEPT
 
 # Steam
 iptables -A OUTPUT -p tcp -m tcp --dport 27015 -j ACCEPT
@@ -126,43 +127,8 @@ iptables -A OUTPUT -p udp -m udp --dport 4380 -j ACCEPT
 iptables -A OUTPUT -p udp -m udp --dport 3478 -j ACCEPT
 iptables -A OUTPUT -p udp -m udp --dport 4379 -j ACCEPT
 
-# TeamSpeak3
-
-iptables -A OUTPUT -p udp -m udp --dport 9987 -j ACCEPT
-iptables -A OUTPUT -p tcp -m tcp --dport 30033 -j ACCEPT
-iptables -A OUTPUT -p tcp -m tcp --dport 10011 -j ACCEPT 
-
 # DHCP Client
 iptables -A OUTPUT -p udp --sport 67 --dport 68 -j ACCEPT
-
-#
-# ufw-not-local
-#
-iptables -N ufw_before_input
-iptables -N ufw_not_local
-iptables -N ufw_logging_deny
-iptables -A ufw_before_input -j ufw_not_local
-
-# if LOCAL, RETURN
-iptables -A ufw_not_local -m addrtype --dst-type LOCAL -j RETURN
-
-# if MULTICAST, RETURN
-iptables -A ufw_not_local -m addrtype --dst-type MULTICAST -j RETURN
-
-# if BROADCAST, RETURN
-iptables -A ufw_not_local -m addrtype --dst-type BROADCAST -j RETURN
-
-# all other non-local packets are dropped
-iptables -A ufw_not_local -m limit --limit 3/min --limit-burst 10 -j ufw_logging_deny
-iptables -A ufw_not_local -j DROP
-
-# allow MULTICAST mDNS for service discovery (be sure the MULTICAST line above
-# is uncommented)
-iptables -A ufw_before_input -p udp -d 224.0.0.251 --dport 5353 -j ACCEPT
-
-# allow MULTICAST UPnP for service discovery (be sure the MULTICAST line above
-# is uncommented)
-iptables -A ufw_before_input -p udp -d 239.255.255.250 --dport 1900 -j ACCEPT
 
 # ALL UDP
 iptables -N RULE_21
