@@ -118,6 +118,9 @@ iptables -A OUTPUT -p udp -m udp  --dport 8881  -m state --state NEW  -j ACCEPT
 iptables -A OUTPUT -p tcp -m tcp  --dport 8881  -m state --state NEW  -j ACCEPT
 iptables -A OUTPUT -p udp -m udp  --dport 7881  -m state --state NEW  -j ACCEPT
 
+# TerraSync
+iptables -A OUTPUT -p tcp -m tcp  --dport 8888  -m state --state NEW  -j ACCEPT
+
 # Git
 iptables -A OUTPUT -p tcp -m tcp  --dport 9418  -m state --state NEW  -j ACCEPT
 
