@@ -156,10 +156,3 @@ iptables -A OUTPUT  -d amarildo   -j RULE_23
 iptables -A INPUT  -j RULE_23
 iptables -A RULE_23  -j LOG  --log-level info --log-prefix "RULE 23 -- DENY "
 iptables -A RULE_23  -j DROP
-
-# Logged again
-iptables -N RULE_24
-iptables -A OUTPUT  -j RULE_24
-iptables -A INPUT  -j RULE_24
-iptables -A RULE_24  -j LOG  --log-level info --log-prefix "RULE 24 -- DENY "
-iptables -A RULE_24  -j DROP
