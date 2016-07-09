@@ -22,7 +22,7 @@ iptables -A drop_invalid -j DROP
 
 # anti-spoof
 iptables -N In_RULE_0
-iptables -A INPUT -i enp0s7   -s amarildo   -j In_RULE_0 
+iptables -A INPUT -i enp3s0   -s amarildo   -j In_RULE_0 
 iptables -A In_RULE_0  -j LOG  --log-level info --log-prefix "RULE 0 -- DENY "
 iptables -A In_RULE_0  -j DROP
 
