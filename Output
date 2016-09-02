@@ -1,3 +1,5 @@
+# Firewall rules created by https://github.com/amarildojr
+
 # Drop everything
 iptables -P OUTPUT  DROP
 iptables -P INPUT   DROP
