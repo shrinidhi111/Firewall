@@ -103,3 +103,9 @@ iptables -A OUTPUT  -d amarildo   -j RULE_23
 iptables -A INPUT  -j RULE_23
 iptables -A RULE_23  -j LOG  --log-level info --log-prefix "RULE 23 -- DENY "
 iptables -A RULE_23  -j DROP
+
+# Saving the configuration
+iptables-save > /etc/iptables/iptables.rules
+
+# Enabling the service
+systemctl enable iptables
