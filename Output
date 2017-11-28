@@ -107,6 +107,7 @@ iptables -A RULE_23  -j LOG  --log-level info --log-prefix "RULE 23 -- DENY "
 iptables -A RULE_23  -j DROP
 
 # Saving the configuration
+mkdir /etc/iptables/
 iptables-save > /etc/iptables/iptables.rules
 
 # Enabling the service
