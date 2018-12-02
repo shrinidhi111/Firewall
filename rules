@@ -76,6 +76,7 @@ iptables -A INPUT  -m state --state ESTABLISHED,RELATED  -j ACCEPT
 # allow all on loopback
 iptables -A INPUT -i lo -j ACCEPT
 iptables -A OUTPUT -o lo -j ACCEPT
+iptables -A FORWARD -o lo -j ACCEPT
 
 #(INVALID OUT)
 iptables -A OUTPUT -p tcp -m tcp ! --tcp-flags SYN,RST,ACK SYN -m state --state NEW -j DROP
