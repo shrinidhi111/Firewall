@@ -133,6 +133,15 @@ iptables -A OUTPUT -p tcp -m tcp  --dport 3690  -m state --state NEW  -j ACCEPT
 # DHCP Client
 iptables -A OUTPUT -p udp --sport 67 --dport 68 -j ACCEPT
 
+# Steam
+iptables -A OUTPUT -p udp -m multiport --dports 27000:27015 -j ACCEPT
+iptables -A OUTPUT -p udp -m multiport --dports 27015:27030 -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --dports 27014:27050 -j ACCEPT
+iptables -A OUTPUT -p udp --dport 1200 -j ACCEPT
+iptables -A OUTPUT -p udp --dport 3478 -j ACCEPT
+iptables -A OUTPUT -p udp --dport 4379 -j ACCEPT
+iptables -A OUTPUT -p udp --dport 4380 -j ACCEPT
+
 # ALL UDP
 iptables -N RULE_21
 iptables -A OUTPUT -p udp -m udp  -j RULE_21
