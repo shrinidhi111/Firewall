@@ -69,10 +69,6 @@ iptables -A INPUT -i lo -j ACCEPT
 iptables -A OUTPUT -o lo -j ACCEPT
 iptables -A FORWARD -o lo -j ACCEPT
 
-# Loopback forwarding now
-# enabled because of
-# Unreal Engine's Lighting Builds
-
 #(INVALID OUT)
 iptables -A OUTPUT -p tcp -m tcp ! --tcp-flags SYN,RST,ACK SYN -m state --state NEW -j DROP
 
