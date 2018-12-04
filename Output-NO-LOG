@@ -77,6 +77,11 @@ iptables -A INPUT -i lo -j ACCEPT
 iptables -A OUTPUT -o lo -j ACCEPT
 iptables -A FORWARD -o lo -j ACCEPT
 
+# Test
+route add -net 224.0.0.0 netmask 240.0.0.0 dev lo
+ifconfig lo multicast
+# End of Test
+
 # ALL UDP
 iptables -N RULE_21
 iptables -A OUTPUT -p udp -m udp  -j RULE_21
